@@ -1,15 +1,23 @@
-const inputvalue = document.querySelector('#inputvalue')
 let weather = {
-    fetchweather: function () {
-        fetch("https://api.openweathermap.org/data/2.5/weather?q="+inputvalue.value+"&units=metric&appid=d9b2319ee9512559735c03c413272167")
-    .then(response => response.json())
-    .then(data => this.displayweather(data))
+    "apikey" : "d9b2319ee9512559735c03c413272167",
+    fetchweather: function (city) {
+        fetch(
+            "https://api.openweathermap.org/data/2.5/weather?q=" 
+             + city 
+             + "&units=metric&appid="
+             + this.apikey
+        )
+            .then(response => response.json())
+            .then(data => this.displayweather(data))
+    // .catch(error => alert("Wrong City Name"))
+
     },    
     displayweather: function(data) {
         const { name } = data;
         const { icon , description } = data.weather[0];
         const {temp , humidity } = data.main;
         const {speed} = data.wind;
+        console.log(data);
         document.querySelector(".city").innerHTML = "Weather in " + name;
         document.querySelector(".icon").src = "https://openweathermap.org/img/wn/"+icon+"@2x.png";
         document.querySelector(".desc").innerHTML = description;
@@ -26,6 +34,7 @@ let weather = {
 
 };
 
+
 document.querySelector(".search button").addEventListener('click', function () {
     weather.search();
 
@@ -35,4 +44,4 @@ document.querySelector(".search-bar").addEventListener("keyup" , function (event
         weather.search();
     }
 })
-weather.fetchweather("denver");
+weather.fetchweather("Delhi");
